@@ -11,82 +11,101 @@ class Setter {
     /**
      * @var string
      */
-    private $fieldName;
+    private $field;
 
     /**
      * @var string
      */
-    private $methodName;
+    private $name;
 
     /**
      * @var string
      */
-    private $classValue;
+    private $type;
 
     /**
-     * Setter constructor.
-     * @param string $fieldName
-     * @param string $methodName
-     * @param string $classValue
+     * @var bool
      */
-    public function __construct($fieldName, $methodName, $classValue)
-    {
-        $this->fieldName = $fieldName;
-        $this->methodName = $methodName;
-        $this->classValue = $classValue;
+    private $isArray;
+
+    /**
+     * @param string $field
+     * @param string $name
+     * @param string $type
+     * @param bool $isArray
+     */
+    public function __construct(string $field, string $name, string $type, bool $isArray) {
+        $this->field = $field;
+        $this->name = $name;
+        $this->type = $type;
+        $this->isArray = $isArray;
     }
 
     /**
      * @return string
      */
-    public function getFieldName(): string
-    {
-        return $this->fieldName;
+    public function getField(): string {
+        return $this->field;
     }
 
     /**
-     * @param string $fieldName
+     * @param string $field
      * @return Setter
      */
-    public function setFieldName(string $fieldName): Setter
-    {
-        $this->fieldName = $fieldName;
+    public function setField(string $field): Setter {
+        $this->field = $field;
+
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getMethodName(): string
-    {
-        return $this->methodName;
+    public function getName(): string {
+        return $this->name;
     }
 
     /**
-     * @param string $methodName
+     * @param string $name
      * @return Setter
      */
-    public function setMethodName(string $methodName): Setter
-    {
-        $this->methodName = $methodName;
+    public function setName(string $name): Setter {
+        $this->name = $name;
+
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getClassValue(): string
-    {
-        return $this->classValue;
+    public function getType(): string {
+        return $this->type;
     }
 
     /**
-     * @param string $classValue
+     * @param string $type
      * @return Setter
      */
-    public function setClassValue(string $classValue): Setter
-    {
-        $this->classValue = $classValue;
+    public function setType(string $type): Setter {
+        $this->type = $type;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isArray(): bool {
+        return $this->type;
+    }
+
+    /**
+     * @param bool $isArray
+     * @return Setter
+     */
+    public function setIsArray(bool $isArray): Setter {
+        $this->isArray = $isArray;
+
         return $this;
     }
 
