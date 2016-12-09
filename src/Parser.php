@@ -71,7 +71,8 @@ class Parser {
      * @return Setter[]
      */
     public function getSetters(): array {
-        $methods = $this->getReflectionClass()->getMethods();
+        $methods = $this->getReflectionClass()
+            ->getMethods();
 
         $setters = [];
 
