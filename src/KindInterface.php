@@ -8,4 +8,6 @@ namespace Mapper;
  */
 interface KindInterface {
 
+    public function map();
+
 }
