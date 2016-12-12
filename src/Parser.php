@@ -117,12 +117,19 @@ class Parser {
                     if (strpos($paramPart, '[]') !== false) {
                         $isArray = true;
                         $type = str_replace('[]', '', $type);
-                    } elseif ($type === 'array') {
-                        $isArray = true;
                     }
                     break;
                 }
             }
+        } else {
+            $parameters = $method->getParameters();
+            if (isset($parameters[0])) {
+                $type = $parameters[0]->getType();
+            }
+        }
+
+        if ($type === 'array') {
+            $isArray = true;
         }
 
         return new Setter(
