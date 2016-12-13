@@ -23,15 +23,15 @@ class Branch implements JsonSerializable {
     /**
      * @return float
      */
-    public function getLength() {
+    public function getLength(): float {
         return $this->length;
     }
 
     /**
      * @param float $length
-     * @return $this
+     * @return Branch
      */
-    public function setLength($length) {
+    public function setLength(float $length): Branch {
         $this->length = $length;
 
         return $this;
@@ -40,25 +40,25 @@ class Branch implements JsonSerializable {
     /**
      * @return Leaf[]
      */
-    public function getLeaves() {
+    public function getLeaves(): array {
         return $this->leaves;
     }
 
     /**
      * @param Leaf[] $leaves
-     * @return $this
+     * @return Branch
      */
-    public function setLeaves(array $leaves = []) {
+    public function setLeaves(array $leaves = []): Branch {
         $this->leaves = $leaves;
 
         return $this;
     }
 
     /**
-     * @param double $length
+     * @param float $length
      * @param array $leaves
      */
-    public function __construct($length = null, array $leaves = []) {
+    public function __construct(float $length = null, array $leaves = []) {
         $this->length = $length;
         $this->leaves = $leaves;
     }
@@ -66,7 +66,7 @@ class Branch implements JsonSerializable {
     /**
      * @return array
      */
-    public function jsonSerialize() {
+    public function jsonSerialize(): array {
         return [
             'length' => $this->getLength(),
             'leaves' => $this->getLeaves()

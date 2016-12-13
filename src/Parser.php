@@ -105,11 +105,11 @@ class Parser {
         preg_match(self::PARAM_SETTER_PATTERN, $method->getDocComment(), $paramTypeAndVariable);
 
         $isArray = false;
-        $type = null;
+        $type = '';
 
         if (isset($paramTypeAndVariable[1])) {
             $paramParts = preg_split('/\s+/', $paramTypeAndVariable[1], 3, PREG_SPLIT_DELIM_CAPTURE);
-            $type = null;
+
             foreach ($paramParts as $paramPart) {
                 if ($paramPart[0] !== '$') {
                     $isArray = false;
