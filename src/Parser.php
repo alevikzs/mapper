@@ -17,9 +17,9 @@ class Parser {
     const PARAM_SETTER_PATTERN = '/@param\s+(.+)/';
 
     /**
-     * @var object
+     * @var string
      */
-    private $object;
+    private $class;
 
     /**
      * @var ReflectionClass
@@ -27,27 +27,27 @@ class Parser {
     private $reflectionClass;
 
     /**
-     * @param object $object
+     * @param string $class
      */
-    public function __construct($object) {
-        $this->setObject($object);
+    public function __construct(string $class) {
+        $this->setClass($class);
     }
 
     /**
-     * @return object
+     * @return string
      */
     public function getObject() {
-        return $this->object;
+        return $this->class;
     }
 
     /**
-     * @param object $object
+     * @param string $class
      * @return Parser
      */
-    public function setObject($object): Parser {
-        $this->object = $object;
+    public function setClass(string $class): Parser {
+        $this->class = $class;
 
-        return $this->setReflectionClass(new ReflectionClass($object));
+        return $this->setReflectionClass(new ReflectionClass($class));
     }
 
     /**
@@ -100,44 +100,77 @@ class Parser {
      * @return Setter
      */
     private function createSetter(ReflectionMethod $method): Setter {
-        $fieldName = lcfirst(str_replace('set', '', $method->getName()));
+        $setter = new Setter(
+            lcfirst(str_replace('set', '', $method->getName())),
+            $method->getName(),
+            '',
+            false
+        );
 
+        $this->setSetterTypeFromAnnotation($setter, $method);
+
+        if (empty($setter->getType())) {
+            $this->setSetterTypeFromSignature($setter, $method);
+        }
+
+        $this->fixSetterIsArrayFlag($setter);
+
+        return $setter;
+    }
+
+    /**
+     * @param Setter $setter
+     * @param ReflectionMethod $method
+     * @return $this
+     */
+    private function setSetterTypeFromAnnotation(Setter $setter, ReflectionMethod $method) {
         preg_match(self::PARAM_SETTER_PATTERN, $method->getDocComment(), $paramTypeAndVariable);
-
-        $isArray = false;
-        $type = '';
 
         if (isset($paramTypeAndVariable[1])) {
             $paramParts = preg_split('/\s+/', $paramTypeAndVariable[1], 3, PREG_SPLIT_DELIM_CAPTURE);
 
             foreach ($paramParts as $paramPart) {
                 if ($paramPart[0] !== '$') {
-                    $isArray = false;
-                    $type = $paramPart;
-                    if (strpos($paramPart, '[]') !== false) {
-                        $isArray = true;
-                        $type = str_replace('[]', '', $type);
+                    if (strpos($paramPart, '[]') === false) {
+                        $setter->setType($paramPart);
+                    } else {
+                        $setter->setIsArray()
+                            ->setType(str_replace('[]', '', $paramPart));
                     }
                     break;
                 }
             }
-        } else {
-            $parameters = $method->getParameters();
-            if (isset($parameters[0])) {
-                $type = $parameters[0]->getType();
-            }
         }
 
-        if ($type === 'array') {
-            $isArray = true;
+        return $this;
+    }
+
+    /**
+     * @param Setter $setter
+     * @param ReflectionMethod $method
+     * @return $this
+     */
+    private function setSetterTypeFromSignature(Setter $setter, ReflectionMethod $method) {
+        $parameters = $method->getParameters();
+        if (isset($parameters[0])) {
+            $type = (string) $parameters[0]->getType();
+
+            $setter->setType($type);
         }
 
-        return new Setter(
-            $fieldName,
-            $method->getName(),
-            $type,
-            $isArray
-        );
+        return $this;
+    }
+
+    /**
+     * @param Setter $setter
+     * @return $this
+     */
+    private function fixSetterIsArrayFlag(Setter $setter) {
+        if ($setter->getType() === 'array') {
+            $setter->setIsArray();
+        }
+
+        return $this;
     }
 
 }

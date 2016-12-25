@@ -100,11 +100,19 @@ class Setter {
     }
 
     /**
-     * @param bool $isArray
      * @return Setter
      */
-    public function setIsArray(bool $isArray): Setter {
-        $this->isArray = $isArray;
+    public function setIsArray(): Setter {
+        $this->isArray = true;
+
+        return $this;
+    }
+
+    /**
+     * @return Setter
+     */
+    public function setIsNotArray(): Setter {
+        $this->isArray = false;
 
         return $this;
     }
