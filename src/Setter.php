@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Mapper;
 
 /**
@@ -96,7 +98,7 @@ class Setter {
      * @return bool
      */
     public function isArray(): bool {
-        return $this->type;
+        return $this->isArray;
     }
 
     /**
