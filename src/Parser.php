@@ -123,9 +123,9 @@ class Parser {
     /**
      * @param Setter $setter
      * @param ReflectionMethod $method
-     * @return $this
+     * @return Parser
      */
-    private function setSetterTypeFromAnnotation(Setter $setter, ReflectionMethod $method) {
+    private function setSetterTypeFromAnnotation(Setter $setter, ReflectionMethod $method): Parser {
         preg_match(self::PARAM_SETTER_PATTERN, $method->getDocComment(), $paramTypeAndVariable);
 
         if (isset($paramTypeAndVariable[1])) {
@@ -150,9 +150,9 @@ class Parser {
     /**
      * @param Setter $setter
      * @param ReflectionMethod $method
-     * @return $this
+     * @return Parser
      */
-    private function setSetterTypeFromSignature(Setter $setter, ReflectionMethod $method) {
+    private function setSetterTypeFromSignature(Setter $setter, ReflectionMethod $method): Parser {
         $parameters = $method->getParameters();
         if (isset($parameters[0])) {
             $type = (string) $parameters[0]->getType();
@@ -165,9 +165,9 @@ class Parser {
 
     /**
      * @param Setter $setter
-     * @return $this
+     * @return Parser
      */
-    private function fixSetterIsArrayFlag(Setter $setter) {
+    private function fixSetterIsArrayFlag(Setter $setter): Parser {
         if ($setter->getType() === 'array') {
             $setter->setIsArray();
         }
