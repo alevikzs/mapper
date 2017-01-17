@@ -23,7 +23,7 @@ class Kernel {
     /**
      * Kernel constructor.
      * @param array $data
-     * @param object $object
+     * @param object|null $object
      */
     public function __construct(array $data, $object) {
         $this->setData($data)
@@ -62,6 +62,13 @@ class Kernel {
         $this->object = $object;
 
         return $this;
+    }
+
+    /**
+     * @return object
+     */
+    public function map() {
+        return $this->getObject();
     }
 
 }

@@ -13,39 +13,45 @@ use Mapper\Kind;
 class Json extends Kind {
 
     /**
-     * @var string
-     */
-    private $json;
-
-    /**
      * Json constructor.
-     * @param string $json
-     * @param string $class
+     * @param string $data
+     * @param object $object
      */
-    public function __construct(string $json, string $class) {
-        $this->setJson($json)
-            ->setClass($class);
+    public function __construct(string $data, $object) {
+        $this->setData($data);
+
+        parent::__construct($object);
     }
 
     /**
      * @return string
      */
-    public function getJson(): string {
-        return $this->json;
+    public function getData(): string {
+        return $this->data;
     }
 
     /**
-     * @param string $json
+     * @param string $data
      * @return Json
      */
-    public function setJson(string $json): Json {
-        $this->json = $json;
+    public function setData(string $data): Json {
+        $this->data = $data;
 
         return $this;
     }
 
-    public function map() {
-        // TODO: Implement map() method.
+    /**
+     * @return array
+     * @throws \Exception
+     */
+    protected function prepareDataKernel(): array {
+        $data = json_decode($this->getData(), true);
+
+        if (is_null($data)) {
+            throw new \Exception('Invalid json passed');
+        }
+
+        return $data;
     }
 
 }

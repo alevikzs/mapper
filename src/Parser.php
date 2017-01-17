@@ -154,6 +154,7 @@ class Parser {
      */
     private function setSetterTypeFromSignature(Setter $setter, ReflectionMethod $method): Parser {
         $parameters = $method->getParameters();
+
         if (isset($parameters[0])) {
             $type = (string) $parameters[0]->getType();
 

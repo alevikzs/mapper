@@ -13,39 +13,43 @@ use Mapper\Kind;
 class Instance extends Kind {
 
     /**
-     * @var object
-     */
-    private $object;
-
-    /**
-     * Json constructor.
+     * Instance constructor.
+     * @param object $data
      * @param object $object
-     * @param string $class
      */
-    public function __construct($object, string $class) {
-        $this->setObject($object)
-            ->setClass($class);
+    public function __construct($data, $object) {
+        $this->setData($data);
+
+        parent::__construct($object);
     }
 
     /**
      * @return object
      */
-    public function getObject() {
-        return $this->object;
+    public function getData() {
+        return $this->data;
     }
 
     /**
-     * @param object $object
+     * @param object $data
      * @return Instance
+     * @throws \Exception
      */
-    public function setObject($object): Instance {
-        $this->object = $object;
+    public function setData($data): Instance {
+        if (is_object($data)) {
+            $this->data = $data;
+        } else {
+            throw new \Exception('Invalid object passed');
+        }
 
         return $this;
     }
 
-    public function map() {
-        // TODO: Implement map() method.
+    /**
+     * @return array
+     */
+    protected function prepareDataKernel(): array {
+        return (array) $this->getData();
     }
 
 }

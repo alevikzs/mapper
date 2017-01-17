@@ -15,37 +15,41 @@ class Associative extends Kind {
     /**
      * @var array
      */
-    private $array;
+    private $data;
 
     /**
-     * Json constructor.
-     * @param array $array
-     * @param string $class
+     * Associative constructor.
+     * @param array $data
+     * @param object $object
      */
-    public function __construct(array $array, string $class) {
-        $this->setArray($array)
-            ->setClass($class);
+    public function __construct(array $data, $object) {
+        $this->setData($data);
+
+        parent::__construct($object);
     }
 
     /**
      * @return array
      */
-    public function getArray(): array {
-        return $this->array;
+    public function getData(): array {
+        return $this->data;
     }
 
     /**
-     * @param array $array
+     * @param array $data
      * @return Associative
      */
-    public function setArray(array $array): Associative {
-        $this->array = $array;
+    public function setData(array $data): Associative {
+        $this->data = $data;
 
         return $this;
     }
 
-    public function map() {
-        // TODO: Implement map() method.
+    /**
+     * @return array
+     */
+    protected function prepareDataKernel(): array {
+        return $this->getData();
     }
 
 }
