@@ -21,13 +21,19 @@ class Kernel {
     private $object;
 
     /**
+     * @var Parser
+     */
+    private $parser;
+
+    /**
      * Kernel constructor.
      * @param array $data
-     * @param object|null $object
+     * @param object $object
      */
     public function __construct(array $data, $object) {
         $this->setData($data)
-            ->setObject($object);
+            ->setObject($object)
+            ->setupParser();
     }
 
     /**
@@ -61,7 +67,36 @@ class Kernel {
     public function setObject($object): Kernel {
         $this->object = $object;
 
+        $class = get_class($this->getObject());
+        $this->getParser()->setClass($class);
+
         return $this;
+    }
+
+    /**
+     * @param Parser $parser
+     * @return Kernel
+     */
+    protected function setParser(Parser $parser): Kernel {
+        $this->parser = $parser;
+
+        return $this;
+    }
+
+    /**
+     * @return Parser
+     */
+    protected function getParser(): Parser {
+        return $this->parser;
+    }
+
+    /**
+     * @return Kernel
+     */
+    private function setupParser(): Kernel {
+        $class = get_class($this->getObject());
+
+        return $this->setParser(new Parser($class));
     }
 
     /**

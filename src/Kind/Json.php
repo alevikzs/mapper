@@ -37,6 +37,9 @@ class Json extends Kind {
     public function setData(string $data): Json {
         $this->data = $data;
 
+        $this->getKernel()
+            ->setData($this->prepareDataKernel());
+
         return $this;
     }
 

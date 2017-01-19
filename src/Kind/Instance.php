@@ -38,6 +38,9 @@ class Instance extends Kind {
     public function setData($data): Instance {
         if (is_object($data)) {
             $this->data = $data;
+
+            $this->getKernel()
+                ->setData($this->prepareDataKernel());
         } else {
             throw new \Exception('Invalid object passed');
         }

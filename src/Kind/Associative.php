@@ -42,6 +42,9 @@ class Associative extends Kind {
     public function setData(array $data): Associative {
         $this->data = $data;
 
+        $this->getKernel()
+            ->setData($data);
+
         return $this;
     }
 
