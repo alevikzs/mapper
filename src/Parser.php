@@ -103,19 +103,21 @@ class Parser {
      */
     private function createSetter(ReflectionMethod $method): Setter {
         $setter = new Setter(
-            lcfirst(str_replace('set', '', $method->getName())),
             $method->getName(),
+            lcfirst(str_replace('set', '', $method->getName())),
             '',
+            false,
             false
         );
 
         $this->setSetterTypeFromAnnotation($setter, $method);
 
-        if (empty($setter->getType())) {
+        if (empty($setter->getFieldType())) {
             $this->setSetterTypeFromSignature($setter, $method);
         }
 
-        $this->fixSetterIsArrayFlag($setter);
+        $this->fixSetterIsArrayFlag($setter)
+            ->fixSetterIsClassFlag($setter);
 
         return $setter;
     }
@@ -134,10 +136,10 @@ class Parser {
             foreach ($paramParts as $paramPart) {
                 if ($paramPart[0] !== '$') {
                     if (strpos($paramPart, '[]') === false) {
-                        $setter->setType($paramPart);
+                        $setter->setFieldType($paramPart);
                     } else {
-                        $setter->setIsArray()
-                            ->setType(str_replace('[]', '', $paramPart));
+                        $setter->setFieldIsArray()
+                            ->setFieldType(str_replace('[]', '', $paramPart));
                     }
                     break;
                 }
@@ -158,7 +160,7 @@ class Parser {
         if (isset($parameters[0])) {
             $type = (string) $parameters[0]->getType();
 
-            $setter->setType($type);
+            $setter->setFieldType($type);
         }
 
         return $this;
@@ -169,8 +171,20 @@ class Parser {
      * @return Parser
      */
     private function fixSetterIsArrayFlag(Setter $setter): Parser {
-        if ($setter->getType() === 'array') {
-            $setter->setIsArray();
+        if ($setter->getFieldType() === 'array') {
+            $setter->setFieldIsArray();
+        }
+
+        return $this;
+    }
+
+    /**
+     * @param Setter $setter
+     * @return Parser
+     */
+    private function fixSetterIsClassFlag(Setter $setter): Parser {
+        if (class_exists($setter->getFieldType())) {
+            $setter->setFieldIsClass();
         }
 
         return $this;

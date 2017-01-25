@@ -13,51 +13,47 @@ class Setter {
     /**
      * @var string
      */
-    private $field;
-
-    /**
-     * @var string
-     */
     private $name;
 
     /**
      * @var string
      */
-    private $type;
+    private $field;
+
+    /**
+     * @var string
+     */
+    private $fieldType;
 
     /**
      * @var bool
      */
-    private $isArray;
+    private $fieldIsArray;
 
     /**
-     * @param string $field
+     * @var bool
+     */
+    private $fieldIsClass;
+
+    /**
      * @param string $name
-     * @param string $type
-     * @param bool $isArray
-     */
-    public function __construct(string $field, string $name, string $type, bool $isArray) {
-        $this->field = $field;
-        $this->name = $name;
-        $this->type = $type;
-        $this->isArray = $isArray;
-    }
-
-    /**
-     * @return string
-     */
-    public function getField(): string {
-        return $this->field;
-    }
-
-    /**
      * @param string $field
-     * @return Setter
+     * @param string $fieldType
+     * @param bool $fieldIsArray
+     * @param bool $fieldIsClass
      */
-    public function setField(string $field): Setter {
+    public function __construct(
+        string $name,
+        string $field,
+        string $fieldType,
+        bool $fieldIsArray,
+        bool $fieldIsClass
+    ) {
+        $this->name = $name;
         $this->field = $field;
-
-        return $this;
+        $this->fieldType = $fieldType;
+        $this->fieldIsArray = $fieldIsArray;
+        $this->fieldIsClass = $fieldIsClass;
     }
 
     /**
@@ -80,16 +76,33 @@ class Setter {
     /**
      * @return string
      */
-    public function getType(): string {
-        return $this->type;
+    public function getField(): string {
+        return $this->field;
     }
 
     /**
-     * @param string $type
+     * @param string $field
      * @return Setter
      */
-    public function setType(string $type): Setter {
-        $this->type = $type;
+    public function setField(string $field): Setter {
+        $this->field = $field;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFieldType(): string {
+        return $this->fieldType;
+    }
+
+    /**
+     * @param string $fieldType
+     * @return Setter
+     */
+    public function setFieldType(string $fieldType): Setter {
+        $this->fieldType = $fieldType;
 
         return $this;
     }
@@ -97,15 +110,15 @@ class Setter {
     /**
      * @return bool
      */
-    public function isArray(): bool {
-        return $this->isArray;
+    public function fieldIsArray(): bool {
+        return $this->fieldIsArray;
     }
 
     /**
      * @return Setter
      */
-    public function setIsArray(): Setter {
-        $this->isArray = true;
+    public function setFieldIsArray(): Setter {
+        $this->fieldIsArray = true;
 
         return $this;
     }
@@ -113,8 +126,33 @@ class Setter {
     /**
      * @return Setter
      */
-    public function setIsNotArray(): Setter {
-        $this->isArray = false;
+    public function setFieldIsNotArray(): Setter {
+        $this->fieldIsArray = false;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function fieldIsClass(): bool {
+        return $this->fieldIsClass;
+    }
+
+    /**
+     * @return Setter
+     */
+    public function setFieldIsClass(): Setter {
+        $this->fieldIsClass = true;
+
+        return $this;
+    }
+
+    /**
+     * @return Setter
+     */
+    public function setFieldIsNotClass(): Setter {
+        $this->fieldIsClass = false;
 
         return $this;
     }
