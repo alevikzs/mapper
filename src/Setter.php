@@ -28,7 +28,12 @@ class Setter {
     /**
      * @var bool
      */
-    private $fieldIsArray;
+    private $fieldIsAssociative;
+
+    /**
+     * @var bool
+     */
+    private $fieldIsSequential;
 
     /**
      * @var bool
@@ -39,20 +44,24 @@ class Setter {
      * @param string $name
      * @param string $field
      * @param string $fieldType
-     * @param bool $fieldIsArray
+     * @param bool $fieldIsAssociative
+     * @param bool $fieldIsSequential
      * @param bool $fieldIsClass
      */
     public function __construct(
         string $name,
         string $field,
-        string $fieldType,
-        bool $fieldIsArray,
-        bool $fieldIsClass
+        string $fieldType = '',
+        bool $fieldIsAssociative = false,
+        bool $fieldIsSequential = false,
+        bool $fieldIsClass = false
     ) {
-        $this->name = $name;
-        $this->field = $field;
-        $this->fieldType = $fieldType;
-        $this->fieldIsArray = $fieldIsArray;
+        $this->setName($name)
+            ->setField($field)
+            ->setFieldType($fieldType);
+
+        $this->fieldIsAssociative = $fieldIsAssociative;
+        $this->fieldIsSequential = $fieldIsSequential;
         $this->fieldIsClass = $fieldIsClass;
     }
 
@@ -104,21 +113,27 @@ class Setter {
     public function setFieldType(string $fieldType): Setter {
         $this->fieldType = $fieldType;
 
+        if (class_exists($fieldType)) {
+            $this->setFieldIsClass();
+        } elseif ($fieldType === 'array') {
+            $this->setFieldIsAssociative();
+        }
+
         return $this;
     }
 
     /**
      * @return bool
      */
-    public function fieldIsArray(): bool {
-        return $this->fieldIsArray;
+    public function fieldIsAssociative(): bool {
+        return $this->fieldIsAssociative;
     }
 
     /**
      * @return Setter
      */
-    public function setFieldIsArray(): Setter {
-        $this->fieldIsArray = true;
+    public function setFieldIsAssociative(): Setter {
+        $this->fieldIsAssociative = true;
 
         return $this;
     }
@@ -126,8 +141,33 @@ class Setter {
     /**
      * @return Setter
      */
-    public function setFieldIsNotArray(): Setter {
-        $this->fieldIsArray = false;
+    public function setFieldIsNotAssociative(): Setter {
+        $this->fieldIsAssociative = false;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function fieldIsSequential(): bool {
+        return $this->fieldIsSequential;
+    }
+
+    /**
+     * @return Setter
+     */
+    public function setFieldIsSequential(): Setter {
+        $this->fieldIsSequential = true;
+
+        return $this;
+    }
+
+    /**
+     * @return Setter
+     */
+    public function setFieldIsNotSequential(): Setter {
+        $this->fieldIsSequential = false;
 
         return $this;
     }

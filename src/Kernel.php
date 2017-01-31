@@ -21,9 +21,9 @@ class Kernel {
     private $object;
 
     /**
-     * @var Parser
+     * @var ClassParser
      */
-    private $parser;
+    private $classParser;
 
     /**
      * Kernel constructor.
@@ -33,7 +33,7 @@ class Kernel {
     public function __construct(array $data, $object) {
         $this->setData($data)
             ->setObject($object)
-            ->setupParser();
+            ->setupClassParser();
     }
 
     /**
@@ -68,42 +68,70 @@ class Kernel {
         $this->object = $object;
 
         $class = get_class($this->getObject());
-        $this->getParser()->setClass($class);
+        $this->getClassParser()->setClass($class);
 
         return $this;
     }
 
     /**
-     * @param Parser $parser
+     * @param ClassParser $parser
      * @return Kernel
      */
-    protected function setParser(Parser $parser): Kernel {
-        $this->parser = $parser;
+    protected function setClassParser(ClassParser $parser): Kernel {
+        $this->classParser = $parser;
 
         return $this;
     }
 
     /**
-     * @return Parser
+     * @return ClassParser
      */
-    protected function getParser(): Parser {
-        return $this->parser;
+    protected function getClassParser(): ClassParser {
+        return $this->classParser;
     }
 
     /**
      * @return Kernel
      */
-    private function setupParser(): Kernel {
+    private function setupClassParser(): Kernel {
         $class = get_class($this->getObject());
 
-        return $this->setParser(new Parser($class));
+        return $this->setClassParser(new ClassParser($class));
     }
 
     /**
      * @return object
      */
     public function map() {
+        $setters = $this->getClassParser()->getSetters();
+
+        foreach ($this->getData() as $field => $value) {
+            $setter = $setters->getSetter($field);
+
+            if ($setter) {
+
+            } else {
+                new \Exception('Field not found');
+            }
+        }
+
         return $this->getObject();
+    }
+
+    /**
+     * @param mixed $value
+     * @return bool
+     */
+    protected function isAssociative($value): bool {
+        return is_array($value);
+    }
+
+    /**
+     * @param array $value
+     * @return bool
+     */
+    private function isSequential(array $value): bool {
+        return array_keys($value) === range(0, count($value) - 1);
     }
 
 }
