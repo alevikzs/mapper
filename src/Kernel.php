@@ -103,12 +103,20 @@ class Kernel {
      * @return object
      */
     public function map() {
-        $setters = $this->getClassParser()->getSetters();
+        $classFields = $this->getClassParser()->getClassFields();
 
         foreach ($this->getData() as $field => $value) {
-            $setter = $setters->getSetter($field);
+            $classField = $classFields->getClassField($field);
 
-            if ($setter) {
+            $valueToMap = $this->buildValueToMap($value, $classField);
+
+            if (!is_null($valueToMap)) {
+                $this
+                    ->getObject()
+                    ->{$classField->getSetter()}($valueToMap);
+            }
+
+            if ($classField) {
 
             } else {
                 new \Exception('Field not found');
@@ -120,9 +128,34 @@ class Kernel {
 
     /**
      * @param mixed $value
+     * @param ClassField $classField
+     * @return mixed
+     */
+    private function buildValueToMap($value, ClassField $classField) {
+        $valueToMap = $value;
+
+        if ($this->isClass($value)) {
+            if ($this->isSequential($value)) {
+                if ($classField->isSequential()) {
+
+                } else {
+
+                }
+            } else {
+
+            }
+        } else {
+
+        }
+
+        return $valueToMap;
+    }
+
+    /**
+     * @param mixed $value
      * @return bool
      */
-    protected function isAssociative($value): bool {
+    protected function isArray($value): bool {
         return is_array($value);
     }
 
@@ -130,7 +163,15 @@ class Kernel {
      * @param array $value
      * @return bool
      */
-    private function isSequential(array $value): bool {
+    protected function isClass(array $value): bool {
+        return !$this->isSequential($value);
+    }
+
+    /**
+     * @param array $value
+     * @return bool
+     */
+    protected function isSequential(array $value): bool {
         return array_keys($value) === range(0, count($value) - 1);
     }
 

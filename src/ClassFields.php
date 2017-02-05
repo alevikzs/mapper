@@ -5,16 +5,16 @@ namespace Mapper;
 use \ArrayObject;
 
 /**
- * Class Setters
+ * Class ClassFields
  * @package Mapper
  */
-class Setters extends ArrayObject {
+class ClassFields extends ArrayObject {
 
     /**
-     * @param Setter $setter
-     * @return Setters
+     * @param ClassField $setter
+     * @return ClassFields
      */
-    public function add(Setter $setter): Setters {
+    public function add(ClassField $setter): ClassFields {
         parent::append($setter);
 
         return $this;
@@ -24,8 +24,8 @@ class Setters extends ArrayObject {
      * @param string $field
      * @return bool
      */
-    public function hasSetter(string $field): bool {
-        /** @var Setter $setter */
+    public function hasClassField(string $field): bool {
+        /** @var ClassField $setter */
         foreach ($this as $setter) {
             if ($setter->getField() === $field) {
                 return true;
@@ -37,10 +37,10 @@ class Setters extends ArrayObject {
 
     /**
      * @param string $field
-     * @return Setter|null
+     * @return ClassField|null
      */
-    public function getSetter(string $field): ?Setter {
-        /** @var Setter $setter */
+    public function getClassField(string $field): ?ClassField {
+        /** @var ClassField $setter */
         foreach ($this as $setter) {
             if ($setter->getField() === $field) {
                 return $setter;

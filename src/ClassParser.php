@@ -70,21 +70,21 @@ class ClassParser {
     }
 
     /**
-     * @return Setters
+     * @return ClassFields
      */
-    public function getSetters(): Setters {
+    public function getClassFields(): ClassFields {
         $methods = $this->getReflectionClass()
             ->getMethods();
 
-        $setters = new Setters();
+        $classFields = new ClassFields();
 
         foreach ($methods as $method) {
             if ($this->isSetterMethod($method)) {
-                $setters->add($this->createSetter($method));
+                $classFields->add($this->createClassField($method));
             }
         }
 
-        return $setters;
+        return $classFields;
     }
 
     /**
@@ -99,42 +99,44 @@ class ClassParser {
 
     /**
      * @param ReflectionMethod $method
-     * @return Setter
+     * @return ClassField
      */
-    private function createSetter(ReflectionMethod $method): Setter {
-        $setter = new Setter(
+    private function createClassField(ReflectionMethod $method): ClassField {
+        $classField = new ClassField(
             $method->getName(),
             lcfirst(str_replace('set', '', $method->getName()))
         );
 
-        $this->setupSetterFromAnnotation($setter, $method);
+        $this->setupClassFieldFromAnnotation($classField, $method);
 
-        if (empty($setter->getFieldType())) {
-            $this->setSetterTypeFromSignature($setter, $method);
+        if (empty($classField->getType())) {
+            $this->setupClassFieldFromSignature($classField, $method);
         }
 
-        return $setter;
+        return $classField;
     }
 
     /**
-     * @param Setter $setter
+     * @param ClassField $classField
      * @param ReflectionMethod $method
      * @return ClassParser
      */
-    private function setupSetterFromAnnotation(Setter $setter, ReflectionMethod $method): ClassParser {
+    private function setupClassFieldFromAnnotation(ClassField $classField, ReflectionMethod $method): ClassParser {
         preg_match(self::PARAM_SETTER_PATTERN, $method->getDocComment(), $paramTypeAndVariable);
 
         if (isset($paramTypeAndVariable[1])) {
-            $paramParts = preg_split('/\s+/', $paramTypeAndVariable[1], 3, PREG_SPLIT_DELIM_CAPTURE);
+            $limit = 3;
+            $paramParts = preg_split('/\s+/', $paramTypeAndVariable[1], $limit, PREG_SPLIT_DELIM_CAPTURE);
 
             foreach ($paramParts as $paramPart) {
                 if (($type = $paramPart[0]) !== '$') {
                     if (strpos($type, '[]') === false) {
-                        $setter->setFieldType($type);
+                        $classField->setType($type);
                     } else {
-                        $setter->setFieldIsSequential()
-                            ->setFieldType(str_replace('[]', '', $type));
+                        $classField->setIsSequential()
+                            ->setType(str_replace('[]', '', $type));
                     }
+
                     break;
                 }
             }
@@ -144,17 +146,17 @@ class ClassParser {
     }
 
     /**
-     * @param Setter $setter
+     * @param ClassField $classField
      * @param ReflectionMethod $method
      * @return ClassParser
      */
-    private function setSetterTypeFromSignature(Setter $setter, ReflectionMethod $method): ClassParser {
+    private function setupClassFieldFromSignature(ClassField $classField, ReflectionMethod $method): ClassParser {
         $parameters = $method->getParameters();
 
         if (isset($parameters[0])) {
             $type = (string) $parameters[0]->getType();
 
-            $setter->setFieldType($type);
+            $classField->setType($type);
         }
 
         return $this;
