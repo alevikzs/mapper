@@ -130,22 +130,31 @@ class Kernel {
      * @param mixed $value
      * @param ClassField $classField
      * @return mixed
+     * @throws \Exception
      */
     private function buildValueToMap($value, ClassField $classField) {
         $valueToMap = $value;
 
-        if ($this->isClass($value)) {
-            if ($this->isSequential($value)) {
-                if ($classField->isSequential()) {
+        if ($this->isArray($value)) {
+            if ($this->isClass($value)) {
+                if ($classField->isClass()) {
+                    $type = $classField->getType();
 
+                    $valueToMap = (new static($value, new $type()))->map();
                 } else {
-
+                    throw new \Exception('Not class');
                 }
             } else {
-
+                if ($classField->isSequential()) {
+                    $valueToMap = array_map(function($value) use (
+                        $classField
+                    ) {
+                        return (new static($value, $classField))->map();
+                    }, $value);
+                } else {
+                    throw new \Exception('Not sequential');
+                }
             }
-        } else {
-
         }
 
         return $valueToMap;
