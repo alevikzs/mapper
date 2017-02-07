@@ -11,11 +11,11 @@ use \ArrayObject;
 class ClassFields extends ArrayObject {
 
     /**
-     * @param ClassField $setter
+     * @param ClassField $classField
      * @return ClassFields
      */
-    public function add(ClassField $setter): ClassFields {
-        parent::append($setter);
+    public function add(ClassField $classField): ClassFields {
+        parent::append($classField);
 
         return $this;
     }
@@ -25,9 +25,9 @@ class ClassFields extends ArrayObject {
      * @return bool
      */
     public function hasClassField(string $field): bool {
-        /** @var ClassField $setter */
-        foreach ($this as $setter) {
-            if ($setter->getField() === $field) {
+        /** @var ClassField $classField */
+        foreach ($this as $classField) {
+            if ($classField->getName() === $field) {
                 return true;
             }
         }
@@ -40,10 +40,10 @@ class ClassFields extends ArrayObject {
      * @return ClassField|null
      */
     public function getClassField(string $field): ?ClassField {
-        /** @var ClassField $setter */
-        foreach ($this as $setter) {
-            if ($setter->getField() === $field) {
-                return $setter;
+        /** @var ClassField $classField */
+        foreach ($this as $classField) {
+            if ($classField->getName() === $field) {
+                return $classField;
             }
         }
 
