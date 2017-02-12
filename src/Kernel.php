@@ -155,6 +155,10 @@ class Kernel {
                     throw new \Exception('Not sequential');
                 }
             }
+        } else {
+            if ($classField->isNotSimple()) {
+                throw new \Exception('Not simple');
+            }
         }
 
         return $valueToMap;

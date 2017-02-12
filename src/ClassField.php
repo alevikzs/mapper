@@ -41,12 +41,18 @@ class ClassField {
     private $isClass;
 
     /**
+     * @var bool
+     */
+    private $isSimple;
+
+    /**
      * @param string $setter
      * @param string $name
      * @param string $type
      * @param bool $isAssociative
      * @param bool $isSequential
      * @param bool $isClass
+     * @param bool $isSimple
      */
     public function __construct(
         string $setter,
@@ -54,7 +60,8 @@ class ClassField {
         string $type = '',
         bool $isAssociative = false,
         bool $isSequential = false,
-        bool $isClass = false
+        bool $isClass = false,
+        bool $isSimple = false
     ) {
         $this->setSetter($setter)
             ->setName($name)
@@ -63,6 +70,7 @@ class ClassField {
         $this->isAssociative = $isAssociative;
         $this->isSequential = $isSequential;
         $this->isClass = $isClass;
+        $this->isSimple = $isSimple;
     }
 
     /**
@@ -117,6 +125,8 @@ class ClassField {
             $this->setIsClass();
         } elseif ($type === 'array') {
             $this->setIsAssociative();
+        } else {
+            $this->setIsSimple();
         }
 
         return $this;
@@ -127,6 +137,13 @@ class ClassField {
      */
     public function isAssociative(): bool {
         return $this->isAssociative;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNotAssociative(): bool {
+        return !$this->isAssociative;
     }
 
     /**
@@ -155,6 +172,13 @@ class ClassField {
     }
 
     /**
+     * @return bool
+     */
+    public function isNotSequential(): bool {
+        return !$this->isSequential;
+    }
+
+    /**
      * @return ClassField
      */
     public function setIsSequential(): ClassField {
@@ -180,6 +204,13 @@ class ClassField {
     }
 
     /**
+     * @return bool
+     */
+    public function isNotClass(): bool {
+        return !$this->isClass;
+    }
+
+    /**
      * @return ClassField
      */
     public function setIsClass(): ClassField {
@@ -193,6 +224,38 @@ class ClassField {
      */
     public function setIsNotClass(): ClassField {
         $this->isClass = false;
+
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSimple(): bool {
+        return $this->isSimple;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isNotSimple(): bool {
+        return !$this->isSimple;
+    }
+
+    /**
+     * @return ClassField
+     */
+    public function setIsSimple(): ClassField {
+        $this->isSimple = true;
+
+        return $this;
+    }
+
+    /**
+     * @return ClassField
+     */
+    public function setIsNotSimple(): ClassField {
+        $this->isSimple = false;
 
         return $this;
     }
