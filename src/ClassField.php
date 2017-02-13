@@ -28,49 +28,36 @@ class ClassField {
     /**
      * @var bool
      */
-    private $isAssociative;
+    private $isAssociative = false;
 
     /**
      * @var bool
      */
-    private $isSequential;
+    private $isSequential = false;
 
     /**
      * @var bool
      */
-    private $isClass;
+    private $isClass = false;
 
     /**
      * @var bool
      */
-    private $isSimple;
+    private $isSimple = false;
 
     /**
      * @param string $setter
      * @param string $name
      * @param string $type
-     * @param bool $isAssociative
-     * @param bool $isSequential
-     * @param bool $isClass
-     * @param bool $isSimple
      */
     public function __construct(
         string $setter,
         string $name,
-        string $type = '',
-        bool $isAssociative = false,
-        bool $isSequential = false,
-        bool $isClass = false,
-        bool $isSimple = false
+        string $type = ''
     ) {
         $this->setSetter($setter)
             ->setName($name)
             ->setType($type);
-
-        $this->isAssociative = $isAssociative;
-        $this->isSequential = $isSequential;
-        $this->isClass = $isClass;
-        $this->isSimple = $isSimple;
     }
 
     /**
@@ -121,12 +108,14 @@ class ClassField {
     public function setType(string $type): ClassField {
         $this->type = $type;
 
-        if (class_exists($type)) {
-            $this->setIsClass();
-        } elseif ($type === 'array') {
-            $this->setIsAssociative();
-        } else {
-            $this->setIsSimple();
+        if ($type) {
+            if (class_exists($type)) {
+                $this->setIsClass();
+            } elseif ($type === 'array') {
+                $this->setIsAssociative();
+            } else {
+                $this->setIsSimple();
+            }
         }
 
         return $this;
