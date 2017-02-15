@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Tests\Dummy;
 
 use \JsonSerializable;
@@ -11,7 +13,7 @@ use \JsonSerializable;
 class Tree implements JsonSerializable {
 
     /**
-     * @var double
+     * @var float
      */
     public $height;
 
@@ -72,7 +74,7 @@ class Tree implements JsonSerializable {
     }
 
     /**
-     * @param Branch|null $branch
+     * @param Branch $branch
      * @return $this
      */
     public function setBranch(Branch $branch = null) {

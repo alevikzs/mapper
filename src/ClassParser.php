@@ -38,7 +38,7 @@ class ClassParser {
     /**
      * @return string
      */
-    public function getObject() {
+    public function getClass() {
         return $this->class;
     }
 
@@ -125,11 +125,15 @@ class ClassParser {
         preg_match(self::PARAM_SETTER_PATTERN, $method->getDocComment(), $paramTypeAndVariable);
 
         if (isset($paramTypeAndVariable[1])) {
-            $limit = 3;
-            $paramParts = preg_split('/\s+/', $paramTypeAndVariable[1], $limit, PREG_SPLIT_DELIM_CAPTURE);
+            $types = preg_split(
+                '/\s+/',
+                $paramTypeAndVariable[1],
+                $limit = 3,
+                PREG_SPLIT_DELIM_CAPTURE
+            );
 
-            foreach ($paramParts as $paramPart) {
-                if (($type = $paramPart[0]) !== '$') {
+            foreach ($types as $type) {
+                if ($type[0] !== '$') {
                     if (strpos($type, '[]') === false) {
                         $classField->setType($type);
                     } else {
