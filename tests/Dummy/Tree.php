@@ -2,13 +2,13 @@
 
 declare(strict_types = 1);
 
-namespace Tests\Dummy;
+namespace Mapper\Tests\Dummy;
 
 use \JsonSerializable;
 
 /**
  * Class Tree
- * @package Tests\Dummy
+ * @package Mapper\Tests\Dummy
  */
 class Tree implements JsonSerializable {
 

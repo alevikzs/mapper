@@ -2,18 +2,18 @@
 
 declare(strict_types = 1);
 
-namespace Tests;
+namespace Mapper\Tests;
 
-use \PHPUnit_Framework_TestCase as TestCase;
+use \PHPUnit\Framework\TestCase;
 
 use \Mapper\ClassField;
 
-use \Tests\Dummy\Branch;
-use \Tests\Dummy\Leaf;
+use \Mapper\Tests\Dummy\Branch;
+use \Mapper\Tests\Dummy\Leaf;
 
 /**
  * Class ClassFieldTest
- * @package Tests
+ * @package Mapper\Tests
  */
 class ClassFieldTest extends TestCase {
 

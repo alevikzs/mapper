@@ -2,20 +2,20 @@
 
 declare(strict_types = 1);
 
-namespace Tests;
+namespace Mapper\Tests;
 
-use \PHPUnit_Framework_TestCase as TestCase;
+use \PHPUnit\Framework\TestCase;
 
 use \Mapper\ClassField;
 use \Mapper\ClassFields;
 use \Mapper\ClassParser;
 
-use \Tests\Dummy\Tree;
-use \Tests\Dummy\Branch;
+use \Mapper\Tests\Dummy\Tree;
+use \Mapper\Tests\Dummy\Branch;
 
 /**
  * Class ClassParserTest
- * @package Tests
+ * @package Mapper\Tests
  */
 class ClassParserTest extends TestCase {
 
