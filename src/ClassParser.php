@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Mapper;
 
-use \ReflectionClass;
+use \Reflection\ReflectionUseStatements as ReflectionClass;
 use \ReflectionMethod;
 
 /**
@@ -134,12 +134,13 @@ class ClassParser {
 
             foreach ($types as $type) {
                 if ($type[0] !== '$') {
-                    if (strpos($type, '[]') === false) {
-                        $classField->setType($type);
-                    } else {
-                        $classField->setIsSequential()
-                            ->setType(str_replace('[]', '', $type));
+                    if (strpos($type, '[]') !== false) {
+                        $classField->setIsSequential();
+
+                        $type = str_replace('[]', '', $type);
                     }
+
+                    $this->setupClassFieldType($classField, $type);
 
                     break;
                 }
@@ -164,6 +165,37 @@ class ClassParser {
         }
 
         return $this;
+    }
+
+    /**
+     * @param ClassField $classField
+     * @param string $type
+     * @return ClassParser
+     */
+    private function setupClassFieldType(ClassField $classField, string $type): ClassParser {
+        if ($this->typeIsNotStandard($type)) {
+            $useStatement = $this->getReflectionClass()
+                ->getUseStatements()
+                ->findUseStatement($type);
+
+            if ($useStatement) {
+                $type = $useStatement->getFullClassName();
+            } else {
+                $type = "{$this->getReflectionClass()->getNamespaceName()}\\$type";
+            }
+        }
+
+        $classField->setType($type);
+
+        return $this;
+    }
+
+    /**
+     * @param string $type
+     * @return bool
+     */
+    private function typeIsNotStandard(string $type): bool {
+        return !in_array($type, array('int', 'string', 'float', 'bool', 'array'));
     }
 
 }

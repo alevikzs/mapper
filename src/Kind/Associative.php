@@ -13,11 +13,6 @@ use Mapper\Kind;
 class Associative extends Kind {
 
     /**
-     * @var array
-     */
-    private $data;
-
-    /**
      * Associative constructor.
      * @param array $data
      * @param object $object
