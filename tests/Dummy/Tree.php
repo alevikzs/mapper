@@ -1,109 +1,138 @@
 <?php
 
-declare(strict_types = 1);
-
 namespace Mapper\Tests\Dummy;
 
-use \JsonSerializable;
+use \Mapper\Tests\Dummy\Tree as TreeAlias;
 
 /**
  * Class Tree
  * @package Mapper\Tests\Dummy
  */
-class Tree implements JsonSerializable {
+class Tree {
+
+    /**
+     * @var TreeAlias\Root
+     */
+    private $root;
+
+    /**
+     * @var TreeAlias\Trunk
+     */
+    private $trunk;
+
+    /**
+     * @var TreeAlias\Branch[]
+     */
+    private $branches;
+
+    /**
+     * @var Forest
+     */
+    private $forest;
 
     /**
      * @var float
      */
-    public $height;
+    private $height;
 
     /**
-     * @var string
+     * @var float
      */
-    private $name;
+    private $width;
 
     /**
-     * @var Branch
+     * @return TreeAlias\Root
      */
-    private $branch;
+    public function getRoot(): TreeAlias\Root {
+        return $this->root;
+    }
 
     /**
-     * @var Branch
+     * @return Tree
      */
-    private $something;
+    public function setRoot(TreeAlias\Root $root): Tree {
+        $this->root = $root;
+        return $this;
+    }
+
+    /**
+     * @return TreeAlias\Trunk
+     */
+    public function getTrunk(): TreeAlias\Trunk {
+        return $this->trunk;
+    }
+
+    /**
+     * @param TreeAlias\Trunk $trunk
+     * @return Tree
+     */
+    public function setTrunk(TreeAlias\Trunk $trunk): Tree {
+        $this->trunk = $trunk;
+        return $this;
+    }
+
+    /**
+     * @return TreeAlias\Branch[]
+     */
+    public function getBranches(): array {
+        return $this->branches;
+    }
+
+    /**
+     * @param TreeAlias\Branch[] $branches
+     * @return Tree
+     */
+    public function setBranches(array $branches): Tree {
+        $this->branches = $branches;
+        return $this;
+    }
+
+    /**
+     * @return Forest
+     */
+    public function getForest(): Forest {
+        return $this->forest;
+    }
+
+    /**
+     * @param Forest $forest
+     * @return Tree
+     */
+    public function setForest(Forest $forest): Tree {
+        $this->forest = $forest;
+        return $this;
+    }
 
     /**
      * @return float
      */
-    public function getHeight() {
+    public function getHeight(): float {
         return $this->height;
     }
 
     /**
      * @param float $height
-     * @return $this
+     * @return Tree
      */
-    public function setHeight($height) {
+    public function setHeight(float $height): Tree {
         $this->height = $height;
-
         return $this;
     }
 
     /**
-     * @return string
+     * @return float
      */
-    public function getName() {
-        return $this->name;
+    public function getWidth(): float {
+        return $this->width;
     }
 
     /**
-     * @param string $name
-     * @return $this
+     * @param float $width
+     * @return Tree
      */
-    public function setName($name) {
-        $this->name = $name;
-
+    public function setWidth(float $width): Tree {
+        $this->width = $width;
         return $this;
-    }
-
-    /**
-     * @return Branch
-     */
-    public function getBranch() {
-        return $this->branch;
-    }
-
-    /**
-     * @param Branch $branch
-     * @return $this
-     */
-    public function setBranch(Branch $branch = null) {
-        $this->branch = $branch;
-
-        return $this;
-    }
-
-    /**
-     * @param double $height
-     * @param string $name
-     * @param Branch $branch
-     */
-    public function __construct($height = null, $name = null, Branch $branch = null) {
-        $this->height = $height;
-        $this->name = $name;
-        $this->branch = $branch;
-        $this->something = 'something';
-    }
-
-    /**
-     * @return array
-     */
-    public function jsonSerialize() {
-        return [
-            'name' => $this->getName(),
-            'height' => $this->getHeight(),
-            'branch' => $this->getBranch()
-        ];
     }
 
 }

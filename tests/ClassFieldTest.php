@@ -8,9 +8,6 @@ use \PHPUnit\Framework\TestCase;
 
 use \Mapper\ClassField;
 
-use \Mapper\Tests\Dummy\Branch;
-use \Mapper\Tests\Dummy\Leaf;
-
 /**
  * Class ClassFieldTest
  * @package Mapper\Tests
@@ -20,13 +17,13 @@ class ClassFieldTest extends TestCase {
     public function testClass() {
         $setter = 'setBranch';
         $name = 'branch';
-        $type = Branch::class;
+        $type = 'Mapper\Tests\Dummy\Tree\Branch';
 
         $classField = new ClassField($setter, $name, $type);
 
         $this->assertEquals($classField->getSetter(), $setter);
         $this->assertEquals($classField->getName(), $name);
-        $this->assertEquals($classField->getType(), $type);
+        $this->assertEquals($classField->getType(), "\\$type");
 
         $this->assertFalse($classField->isAssociative());
         $this->assertTrue($classField->isNotAssociative());
@@ -120,7 +117,7 @@ class ClassFieldTest extends TestCase {
 
         $newSetter = 'setLeaves';
         $newName = 'leaves';
-        $newType = Leaf::class;
+        $newType = '\Mapper\Tests\Dummy\Tree\Branch\Leaf';
 
         $classField->setType($newType)
             ->setSetter($newSetter)

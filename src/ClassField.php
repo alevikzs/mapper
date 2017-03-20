@@ -106,17 +106,21 @@ class ClassField {
      * @return ClassField
      */
     public function setType(string $type): ClassField {
-        $this->type = $type;
-
         if ($type) {
             if (class_exists($type)) {
                 $this->setIsClass();
+
+                if ($type[0] !== '\\') {
+                    $type = "\\$type";
+                }
             } elseif ($type === 'array') {
                 $this->setIsAssociative();
             } else {
                 $this->setIsSimple();
             }
         }
+
+        $this->type = $type;
 
         return $this;
     }

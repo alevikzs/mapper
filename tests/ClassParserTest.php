@@ -10,9 +10,6 @@ use \Mapper\ClassField;
 use \Mapper\ClassFields;
 use \Mapper\ClassParser;
 
-use \Mapper\Tests\Dummy\Tree;
-use \Mapper\Tests\Dummy\Branch;
-
 /**
  * Class ClassParserTest
  * @package Mapper\Tests
@@ -20,17 +17,20 @@ use \Mapper\Tests\Dummy\Branch;
 class ClassParserTest extends TestCase {
 
     public function testMain() {
-        $classParser = new ClassParser(Branch::class);
-        $this->assertEquals(Branch::class, $classParser->getClass());
+        $classParser = new ClassParser('\Mapper\Tests\Dummy\Tree\Branch');
+        $this->assertEquals('\Mapper\Tests\Dummy\Tree\Branch', $classParser->getClass());
 
-        $classParser->setClass(Tree::class);
-        $this->assertEquals(Tree::class, $classParser->getClass());
+        $classParser->setClass('\Mapper\Tests\Dummy\Tree');
+        $this->assertEquals('\Mapper\Tests\Dummy\Tree', $classParser->getClass());
 
         $this->assertEquals(
             $classParser->getClassFields(),
-            (new ClassFields())->add(new ClassField('setHeight', 'height', 'float'))
-                ->add(new ClassField('setName', 'name', 'string'))
-                ->add(new ClassField('setBranch', 'branch', Branch::class))
+            (new ClassFields())->add(new ClassField('setRoot', 'root', '\Mapper\Tests\Dummy\Tree\Root'))
+                ->add(new ClassField('setTrunk', 'trunk', '\Mapper\Tests\Dummy\Tree\Trunk'))
+                ->add((new ClassField('setBranches', 'branches', '\Mapper\Tests\Dummy\Tree\Branch'))->setIsSequential())
+                ->add((new ClassField('setForest', 'forest', '\Mapper\Tests\Dummy\Forest')))
+                ->add(new ClassField('setHeight', 'height', 'float'))
+                ->add(new ClassField('setWidth', 'width', 'float'))
         );
     }
 

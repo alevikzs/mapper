@@ -4,7 +4,7 @@ declare(strict_types = 1);
 
 namespace Mapper;
 
-use \Reflection\ReflectionUseStatements as ReflectionClass;
+use \Reflection\ClassUseStatements as ReflectionClass;
 use \ReflectionMethod;
 
 /**
@@ -174,12 +174,12 @@ class ClassParser {
      */
     private function setupClassFieldType(ClassField $classField, string $type): ClassParser {
         if ($this->typeIsNotStandard($type)) {
-            $useStatement = $this->getReflectionClass()
+            $fullClassName = $this->getReflectionClass()
                 ->getUseStatements()
-                ->findUseStatement($type);
+                ->getFullClassName($type);
 
-            if ($useStatement) {
-                $type = $useStatement->getFullClassName();
+            if ($fullClassName) {
+                $type = $fullClassName;
             } else {
                 $type = "{$this->getReflectionClass()->getNamespaceName()}\\$type";
             }
