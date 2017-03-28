@@ -2,13 +2,14 @@
 
 namespace Mapper\Tests\Dummy;
 
+use \JsonSerializable;
 use \Mapper\Tests\Dummy\Tree as TreeAlias;
 
 /**
  * Class Tree
  * @package Mapper\Tests\Dummy
  */
-class Tree {
+class Tree implements JsonSerializable {
 
     /**
      * @var TreeAlias\Root
@@ -133,6 +134,13 @@ class Tree {
     public function setWidth(float $width): Tree {
         $this->width = $width;
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize(): array {
+        return get_object_vars($this);
     }
 
 }

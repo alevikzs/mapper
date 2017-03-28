@@ -32,8 +32,8 @@ class Kernel {
      */
     public function __construct(array $data, $object) {
         $this->setData($data)
-            ->setObject($object)
-            ->setupClassParser();
+            ->setupClassParser($object)
+            ->setObject($object);
     }
 
     /**
@@ -91,10 +91,11 @@ class Kernel {
     }
 
     /**
+     * @param object $object
      * @return Kernel
      */
-    private function setupClassParser(): Kernel {
-        $class = get_class($this->getObject());
+    private function setupClassParser($object): Kernel {
+        $class = get_class($object);
 
         return $this->setClassParser(new ClassParser($class));
     }
@@ -149,7 +150,9 @@ class Kernel {
                     $valueToMap = array_map(function($value) use (
                         $classField
                     ) {
-                        return (new static($value, $classField))->map();
+                        $type = $classField->getType();
+
+                        return (new static($value, new $type()))->map();
                     }, $value);
                 } else {
                     throw new \Exception('Not sequential');

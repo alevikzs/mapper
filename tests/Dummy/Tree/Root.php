@@ -2,11 +2,13 @@
 
 namespace Mapper\Tests\Dummy\Tree;
 
+use \JsonSerializable;
+
 /**
  * Class Root
  * @package Mapper\Tests\Dummy\Tree
  */
-class Root {
+class Root implements JsonSerializable {
 
     /**
      * @var float
@@ -48,6 +50,13 @@ class Root {
     public function setWidth(float $width): Root {
         $this->width = $width;
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize(): array {
+        return get_object_vars($this);
     }
 
 }

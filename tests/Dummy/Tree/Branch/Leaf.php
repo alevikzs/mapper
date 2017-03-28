@@ -2,11 +2,13 @@
 
 namespace Mapper\Tests\Dummy\Tree\Branch;
 
+use \JsonSerializable;
+
 /**
  * Class Leaf
  * @package Mapper\Tests\Dummy\Tree\Branch
  */
-class Leaf {
+class Leaf implements JsonSerializable {
 
     /**
      * @var float
@@ -48,6 +50,13 @@ class Leaf {
     public function setWidth(float $width): Leaf {
         $this->width = $width;
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize(): array {
+        return get_object_vars($this);
     }
 
 }

@@ -2,11 +2,13 @@
 
 namespace Mapper\Tests\Dummy\Tree\Branch;
 
+use \JsonSerializable;
+
 /**
  * Class Fruit
  * @package Mapper\Tests\Dummy\Tree\Branch
  */
-class Fruit {
+class Fruit implements JsonSerializable {
 
     /**
      * @var float
@@ -48,6 +50,13 @@ class Fruit {
     public function setWidth(float $width): Fruit {
         $this->width = $width;
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize(): array {
+        return get_object_vars($this);
     }
 
 }

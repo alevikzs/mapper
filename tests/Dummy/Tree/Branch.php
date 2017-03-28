@@ -2,13 +2,14 @@
 
 namespace Mapper\Tests\Dummy\Tree;
 
+use \JsonSerializable;
 use \Mapper\Tests\Dummy\Tree\Branch\{Leaf, Fruit};
 
 /**
  * Class Branch
  * @package Mapper\Tests\Dummy\Tree
  */
-class Branch {
+class Branch implements JsonSerializable {
 
     /**
      * @var Leaf[]
@@ -92,6 +93,13 @@ class Branch {
     public function setWidth(float $width): Branch {
         $this->width = $width;
         return $this;
+    }
+
+    /**
+     * @return array
+     */
+    public function jsonSerialize(): array {
+        return get_object_vars($this);
     }
 
 }
