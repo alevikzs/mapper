@@ -18,7 +18,7 @@ class Json extends Kind {
      * @param object $object
      */
     public function __construct(string $data, $object) {
-        $this->setData($data);
+        $this->data = $data;
 
         parent::__construct($object);
     }

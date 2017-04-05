@@ -109,18 +109,14 @@ class Kernel {
         foreach ($this->getData() as $field => $value) {
             $classField = $classFields->getClassField($field);
 
-            $valueToMap = $this->buildValueToMap($value, $classField);
-
-            if (!is_null($valueToMap)) {
-                $this
-                    ->getObject()
-                    ->{$classField->getSetter()}($valueToMap);
-            }
-
             if ($classField) {
+                $valueToMap = $this->buildValueToMap($value, $classField);
 
-            } else {
-                new \Exception('Field not found');
+                if (!is_null($valueToMap)) {
+                    $this
+                        ->getObject()
+                        ->{$classField->getSetter()}($valueToMap);
+                }
             }
         }
 
@@ -142,25 +138,15 @@ class Kernel {
                     $type = $classField->getType();
 
                     $valueToMap = (new static($value, new $type()))->map();
-                } else {
-                    throw new \Exception('Not class');
                 }
             } else {
                 if ($classField->isSequential()) {
-                    $valueToMap = array_map(function($value) use (
-                        $classField
-                    ) {
+                    $valueToMap = array_map(function($value) use ($classField) {
                         $type = $classField->getType();
 
                         return (new static($value, new $type()))->map();
                     }, $value);
-                } else {
-                    throw new \Exception('Not sequential');
                 }
-            }
-        } else {
-            if ($classField->isNotSimple()) {
-                throw new \Exception('Not simple');
             }
         }
 

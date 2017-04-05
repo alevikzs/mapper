@@ -35,8 +35,8 @@ abstract class Kind implements KindInterface {
      * @param object $object
      */
     public function __construct($object) {
-        $this->setObject($object)
-            ->setupKernel();
+        $this->setupKernel($object)
+            ->setObject($object);
     }
 
     /**
@@ -82,13 +82,14 @@ abstract class Kind implements KindInterface {
     }
 
     /**
+     * @param object $object
      * @return Kind
      */
-    private function setupKernel(): Kind {
+    private function setupKernel($object): Kind {
         return $this->setKernel(
             new Kernel(
                 $this->prepareDataKernel(),
-                $this->getObject()
+                $object
             )
         );
     }
