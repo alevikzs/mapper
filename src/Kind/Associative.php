@@ -18,7 +18,7 @@ class Associative extends Kind {
      * @param object $object
      */
     public function __construct(array $data, $object) {
-        $this->setData($data);
+        $this->data = $data;
 
         parent::__construct($object);
     }
