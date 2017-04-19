@@ -15,7 +15,7 @@ class ClassFields extends ArrayObject {
      * @return ClassFields
      */
     public function add(ClassField $classField): ClassFields {
-        parent::append($classField);
+        $this->append($classField);
 
         return $this;
     }

@@ -92,9 +92,7 @@ class ClassParser {
      * @return bool
      */
     private function isSetterMethod(ReflectionMethod $method): bool {
-        $name = $method->getName();
-
-        return strpos($name, 'set') !== false;
+        return strpos($method->name, 'set') !== false;
     }
 
     /**
@@ -103,8 +101,8 @@ class ClassParser {
      */
     private function createClassField(ReflectionMethod $method): ClassField {
         $classField = new ClassField(
-            $method->getName(),
-            lcfirst(str_replace('set', '', $method->getName()))
+            $method->name,
+            lcfirst(str_replace('set', '', $method->name))
         );
 
         $this->setupClassFieldFromAnnotation($classField, $method);
