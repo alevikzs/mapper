@@ -3,7 +3,6 @@
 [![License](http://poser.pugx.org/alevikzs/mapper/license)](https://packagist.org/packages/alevikzs/mapper)
 [![Latest Stable Version](http://poser.pugx.org/alevikzs/mapper/v/stable)](https://packagist.org/packages/alevikzs/mapper) 
 [![Total Downloads](http://poser.pugx.org/alevikzs/mapper/downloads)](https://packagist.org/packages/alevikzs/mapper) 
-[![Reference Status](http://www.versioneye.com/php/alevikzs:mapper/reference_badge.svg?style=flat)](https://www.versioneye.com/php/alevikzs:mapper/references)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/alevikzs/mapper/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/alevikzs/mapper/?branch=master)
 [![Code Climate](https://codeclimate.com/github/alevikzs/mapper/badges/gpa.svg)](https://codeclimate.com/github/alevikzs/mapper)
 [![Build Status](https://scrutinizer-ci.com/g/alevikzs/mapper/badges/build.png?b=master)](https://scrutinizer-ci.com/g/alevikzs/mapper/build-status/master)
