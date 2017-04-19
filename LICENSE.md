@@ -1,6 +1,6 @@
 MIT License
 
-Copyright (c) 2016 Alexey Novikov
+Copyright (c) 2017 Alexey Novikov alekseeey@gmail.com
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

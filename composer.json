@@ -1,7 +1,7 @@
 {
   "name": "alevikzs/mapper",
-  "description": "Map json strings, arrays, objects to another objects",
-  "keywords": ["php", "mapper", "object", "array", "json"],
+  "description": "The Mapper library is meant to be used to turn json strings or arrays a into a specific objects.",
+  "keywords": ["php", "mapper", "deserialization", "object", "array", "json"],
   "type": "library",
   "license": "MIT",
   "authors": [
