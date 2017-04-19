@@ -24,7 +24,7 @@ class JsonTest extends TestCase {
         $mapper->setData($this->getBranchJson());
         $this->assertNotEquals($this->getBranchObject(), $mapper->map());
 
-        $mapper->setObject($this->getBranchObject());
+        $mapper->setObject(new Tree\Branch());
         $this->assertEquals($this->getBranchObject(), $mapper->map());
 
         $this->assertEquals($this->getBranchObject(), $mapper->getObject());
