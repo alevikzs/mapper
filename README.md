@@ -1,4 +1,4 @@
-## Use Statements Reflection API
+## Mapper
 
 [![License](http://poser.pugx.org/alevikzs/mapper/license)](https://packagist.org/packages/alevikzs/mapper)
 [![Latest Stable Version](http://poser.pugx.org/alevikzs/mapper/v/stable)](https://packagist.org/packages/alevikzs/mapper) 
@@ -10,7 +10,7 @@
 [![Code Coverage](https://scrutinizer-ci.com/g/alevikzs/mapper/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/alevikzs/mapper/?branch=master)
 
 ### About
-The Mapper library is meant to be used to turn json strings or arrays a into a specific objects.
+The Mapper library is meant to be used to turn json strings or arrays into a specific objects.
 
 ### Requirements
 * PHP >= 7.1
